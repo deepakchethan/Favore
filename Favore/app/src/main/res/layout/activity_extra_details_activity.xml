@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.favoreme.favore.Login.Extra_details_activity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/dope"
+        android:layout_margin="16dp"
+        android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="false"
+                android:src="@drawable/background"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="3dp" >
+                </de.hdodenhof.circleimageview.CircleImageView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/name"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="170dp"
+            android:orientation="horizontal">
+            <EditText
+                android:layout_width="match_parent"
+                android:id="@+id/fname"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:hint="First Name"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:id="@+id/lname"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:hint="Last Name"/>
+        </LinearLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:id="@+id/dname"
+            android:layout_below="@id/name"
+            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content"
+            android:hint="Display Name"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/about"
+            android:hint="About Me"
+            android:layout_below="@id/dname"
+            android:layout_marginBottom="10dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/phone"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@id/about"
+            android:orientation="horizontal">
+            <EditText
+                android:layout_width="match_parent"
+                android:id="@+id/pnum"
+                android:inputType="phone"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:hint="Phone"/>
+        </LinearLayout>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/phone"
+            android:orientation="horizontal"
+            android:id="@+id/radio">
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/male"
+                android:text="Male"
+                android:onClick="onRadioButtonClicked"
+                android:layout_weight="1"/>
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:id="@+id/female"
+                android:text="Female"
+                android:onClick="onRadioButtonClicked"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+        </RadioGroup>
+
+        <ProgressBar
+            android:id="@+id/signupProgress"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/pass"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            android:layout_marginBottom="20dp" />
+    </RelativeLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:id="@+id/signUp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:text="Done!"
+        />
+
+
+</RelativeLayout>
+

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:title="Home"
+        android:id="@+id/home"
+        android:icon="@drawable/ic_home_black_24dp"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:title="Post"
+        android:id="@+id/text"
+        android:icon="@drawable/ic_text_format_black_24dp"
+        app:showAsAction="always" />
+
+
+
+    <item
+        android:title="Profile"
+        android:id="@+id/profile"
+        android:icon="@drawable/ic_textsms_black_24dp"
+        app:showAsAction="always" />
+
+    <item
+        android:title="Navigation"
+        android:id="@+id/nav"
+        android:icon="@drawable/ic_add_location_black_24dp"
+        app:showAsAction="always" />
+
+
+</menu>

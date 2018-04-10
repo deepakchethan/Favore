@@ -1,0 +1,28 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.favoreme.favore.Fragments.HomeFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/load"
+            android:layout_alignParentBottom="true"
+            android:background="@android:color/transparent"
+            android:text="Load More"
+            />
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/load"
+        android:id="@+id/post_list"></ListView>
+
+    </RelativeLayout>
+
+</FrameLayout>
