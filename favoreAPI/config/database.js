@@ -1,4 +1,4 @@
 module.exports = {
   'secret':'nodeauthsecret',
-  'database': 'mongodb://localhost/node-auth'
+  'database': 'mongodb://localhost/favore'
 };

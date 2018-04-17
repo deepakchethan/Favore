@@ -7,6 +7,7 @@ var jwt = require('jsonwebtoken');
 var router = express.Router();
 var User = require("../models/user");
 
+
 router.post('/signin/', function(req, res, next) {
   User.findOne({
     username:req.body.username
@@ -20,6 +21,7 @@ router.post('/signin/', function(req, res, next) {
           var token = jwt.sign(user.toObject(), config.secret);
           res.json({success:true, token:'JWT '+token});
         }else{
+
           res.status(401).send({success:false, msg:'Authentication failed. Wrong password'});
         }
       })
@@ -27,8 +29,9 @@ router.post('/signin/', function(req, res, next) {
   });
 });
 
+
+
 router.post('/signup/',function(req,res,next){
-  console.log(req.body);
   if (!req.body.username || !req.body.password){
     res.json({success:false, msg:'Please fill up stuff'});
   }else{
@@ -36,13 +39,16 @@ router.post('/signup/',function(req,res,next){
       username: req.body.username,
       password:req.body.password
     });
-    newUser.save(function(err){
+    newUser.save(function(err,success){
       if(err){
         return res.json({success: false, msg:'Username already exists'});
       }
-      res.json({success:true,msg:'Successfully created new user'});
+
+      res.json({success:true,msg:'Successfully created new user',success});
     })
   }
 });
+
+
 
 module.exports = router;
