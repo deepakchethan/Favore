@@ -5,7 +5,9 @@ const GeoSchema = new Schema();
 
 
 var PostSchema = new Schema({
-  
+  postid:{
+    type:Number,
+  }
   text:{
     type:String,
     require: true

@@ -9,7 +9,7 @@ var User = require("../models/user");
 var Post = require('../models/post');
 
 router.post('/post/',function(req,res,next){
-  console.log(req.body);
+  // Sending the post
   var newPost = new Post({
     post:req.body.post,
     location:req.body.location,
@@ -62,5 +62,28 @@ router.get('/getUserDetails/:user_name',function(req,res,next) {
     res.json({success:true,user:usr});
   });
 })
+
+router.get('/removePost/:post_id',function(req,res,next){
+
+});
+
+router.get("/editUser/:user_id",function(req,res,next){
+
+});
+
+router.get("/favore/:post_id",function(req,res,next){
+
+});
+
+router.get("/addFriend/",function(req,res,next){
+  /*
+    usage: localhost:3000/user/fetchPosts?usr=xx&frnd=xx
+  */
+});
+
+router.get("/getFriendList/:user_id",function(req,res,next){
+
+});
+
 
 module.exports = router;

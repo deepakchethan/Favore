@@ -7,9 +7,33 @@ var UserSchema = new Schema({
     type:String,
     require: true
   },
+  userid:{
+    type:Number,
+  }
   password:{
     type:String,
     required: true
+  },
+  fname:{
+    type:String
+  },
+  lname:{
+    type:String
+  },
+  dname:{
+    type:String
+  },
+  phone:{
+    type:Number
+  },
+  bio:{
+    type:String
+  },
+  friends:{
+    type:[Number]
+  },
+  posts:{
+    type:[Number]
   }
 });
 

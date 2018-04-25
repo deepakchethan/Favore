@@ -1,0 +1,45 @@
+
+Favore: 
+* A Social Networking site where people can dump images, voices and text based posts at specific locations and let random strangers who pass by that path read them.
+* It is an android app with the nodejs as the background
+* People can "favore" or repost the post from where there are at.
+* Can add people to the friend list, remove them
+* Posts last longer based on the "favoring". If nobody fovores it, the post will be deleted.
+
+NODE BACK END
+
+* DONE Login
+* DONE Signup
+* DONE Add post
+* Remove Post
+* DONE Fetch Near Posts
+* DONE Fetch User Details
+* Edit User
+* Favore a post (Basically reposting the post from there location)
+* Add User as friend
+* Fetch The friend List
+* Remove the user as friend
+
+Android Client
+
+* UI
+  - [X] Login Screen
+  - [X] Signup Screen
+  - [X] Home Screen
+  - [ ] My Post Screen
+  - [ ] User Details
+  - [ ] Settings
+
+
+* Functionality
+
+** User Setup
+   - [ ] Integrate Login
+   - [ ] Integrate Singup
+   - [ ] Store the JWT token into the shredprefs (private)
+   
+** User Functionality
+   - [ ] Add a post
+   - [ ] Remove a post
+   - [ ] Edit a Post
+
