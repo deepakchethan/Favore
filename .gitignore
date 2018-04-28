@@ -62,3 +62,6 @@ coverage
 
 # Benchmarking
 benchmarks/graphs
+*~
+\#*
+.\#*

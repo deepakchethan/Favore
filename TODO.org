@@ -24,9 +24,9 @@ NODE BACK END
 * DONE Delete a user
 * DONE Get user Friend list
 * DONE Remove the user as friend
-* Add Image Support [1/2]
+* TODO Add Image Support [2/2]
   - [X] Add isImage,imageurl to model
-  - [ ] Some way to upload images from android app to server
+  - [X] Some way to upload images from android app to server
 
 Android Client
 

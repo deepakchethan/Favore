@@ -1,0 +1,101 @@
+* Signup:
+OkHttpClient client = new OkHttpClient();
+MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+RequestBody body = RequestBody.create(mediaType, "username=dollbok&password=Iamstupid999");
+Request request = new Request.Builder()
+  .url("http://localhost:3000/signup")
+  .post(body)
+  .addHeader("Content-Type", "application/x-www-form-urlencoded")
+  .addHeader("Cache-Control", "no-cache")
+  .build();
+Response response = client.newCall(request).execute();
+
+* SignIn:
+OkHttpClient client = new OkHttpClient();
+MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+RequestBody body = RequestBody.create(mediaType, "username=dodococo&password=Iamstupid999");
+Request request = new Request.Builder()
+  .url("http://localhost:3000/signin")
+  .post(body)
+  .addHeader("Content-Type", "application/x-www-form-urlencoded")
+  .addHeader("Cache-Control", "no-cache")
+  .build();
+Response response = client.newCall(request).execute();
+
+* Create Posts:
+OkHttpClient client = new OkHttpClient();
+MediaType mediaType = MediaType.parse("application/json");
+RequestBody body = RequestBody.create(mediaType, "{\n\n\t\"location\":{\"type\":\"point\",\"coordinates\":[-80,25.791]},\n\t\"favors\":0,\n\t\"postText\":\"This is first post\",\n\t\"age\":0,\n\t\"posterId\":1,\n\t\"date\":1523970977506\n}");
+Request request = new Request.Builder()
+  .url("http://localhost:3000/user/post")
+  .post(body)
+  .addHeader("Content-Type", "application/json")
+  .addHeader("Cache-Control", "no-cache")
+  .build();
+Response response = client.newCall(request).execute();
+
+* Fetch Posts:
+OkHttpClient client = new OkHttpClient();
+Request request = new Request.Builder()
+  .url("http://localhost:3000/user/fetchPosts?lon=-80&lat=25.791")
+  .get()
+  .addHeader("Cache-Control", "no-cache")
+  .build();
+Response response = client.newCall(request).execute();
+
+* Remove Posts:
+OkHttpClient client = new OkHttpClient();
+Request request = new Request.Builder()
+  .url("http://localhost:3000/user/removePost/13")
+  .get()
+  .addHeader("Cache-Control", "no-cache")
+  .build();
+Response response = client.newCall(request).execute();
+
+* Get User Details:
+OkHttpClient client = new OkHttpClient();
+Request request = new Request.Builder()
+  .url("http://localhost:3000/user/getUserDetails/5ae2b09d21e7614842553984")
+  .get()
+  .addHeader("Cache-Control", "no-cache")
+  .build();
+Response response = client.newCall(request).execute();
+
+* Edit User:
+OkHttpClient client = new OkHttpClient();
+MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+RequestBody body = RequestBody.create(mediaType, "fname=Deepak&lname=Chethan&dname=dodococo&username=dodococo&phone=7848948784&bio=Life%20is%20great&id=1&age=21");
+Request request = new Request.Builder()
+  .url("http://localhost:3000/user/edituser/")
+  .post(body)
+  .addHeader("Content-Type", "application/x-www-form-urlencoded")
+  .addHeader("Cache-Control", "no-cache")
+  .build();
+Response response = client.newCall(request).execute();
+
+* Add Friend:
+OkHttpClient client = new OkHttpClient();
+Request request = new Request.Builder()
+  .url("http://localhost:3000/user/addfriend/?usr=1&frnd=3")
+  .get()
+  .addHeader("Cache-Control", "no-cache")
+  .build();
+Response response = client.newCall(request).execute();
+
+* Remove Friend:
+OkHttpClient client = new OkHttpClient();
+Request request = new Request.Builder()
+  .url("http://localhost:3000/user/removeFriend/?usr=1&frnd=3")
+  .get()
+  .addHeader("Cache-Control", "no-cache")
+  .build();
+Response response = client.newCall(request).execute();
+
+* Get Friend List
+OkHttpClient client = new OkHttpClient();
+Request request = new Request.Builder()
+  .url("http://localhost:3000/user/getFriendList/1")
+  .get()
+  .addHeader("Cache-Control", "no-cache")
+  .build();
+Response response = client.newCall(request).execute();
