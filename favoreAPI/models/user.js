@@ -1,18 +1,22 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
+const autoincrement = require('simple-mongoose-autoincrement')
 var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
+  id:{
+    type:Schema.Types.ObjectId
+  },
   username:{
     type:String,
     require: true
   },
-  userid:{
-    type:Number,
-  }
   password:{
     type:String,
     required: true
+  },
+  age:{
+    type:Number
   },
   fname:{
     type:String
@@ -64,4 +68,5 @@ UserSchema.methods.comparePassword = function(passw,cb){
   })
 }
 
+mongoose.plugin(autoincrement,{field:'id'});
 module.exports = mongoose.model('User',UserSchema);

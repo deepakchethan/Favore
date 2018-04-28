@@ -1,17 +1,7 @@
 const mongoose = require('mongoose');
+const config = require('../config/database');
 var Schema = mongoose.Schema;
-
-const GeoSchema = new Schema();
-
-
 var PostSchema = new Schema({
-  postid:{
-    type:Number,
-  }
-  text:{
-    type:String,
-    require: true
-  },
 
   location: {
     type:{
@@ -23,7 +13,22 @@ var PostSchema = new Schema({
       index: "2dsphere"
     }
   },
-
+  isImage:{
+    type:Boolean
+  },
+  imagePath:{
+    type:String
+  },
+  id:{
+    type:Schema.Types.ObjectId
+  },
+  postText:{
+    type:String,
+    require: true
+  },
+  posterId:{
+    type:Number
+  },
   favors:{
     type:Number,
     default:0
@@ -37,10 +42,17 @@ var PostSchema = new Schema({
     default:Date.now
   }
 });
+PostSchema.methods.favored = function(){
+  this.favors++;
+}
 
 PostSchema.methods.computeAge = function(){
-  var temp = Date.now().getTime() - this.date.getTime();
-  this.age = Math.round(temp/(1000*60*60*24));
+  var temp = new Date((new Date).getTime() - this.date.getTime());
+  // 3600 to convert to seconds
+  // 1000 to convert milli sec to sec
+  // Returns in minutes
+  this.age = Math.round(temp/(60*1000));
+
 }
 
 module.exports = mongoose.model('Post',PostSchema);

@@ -1,4 +1,5 @@
 module.exports = {
   'secret':'nodeauthsecret',
-  'database': 'mongodb://localhost/favore'
+  'database': 'mongodb://localhost/favore',
+  'connection':null
 };
