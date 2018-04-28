@@ -22,6 +22,7 @@ import com.favoreme.favore.Location.Tracker;
 import com.favoreme.favore.Login.LoginActivity;
 import com.favoreme.favore.Models.Loci;
 import com.favoreme.favore.Models.Post;
+import com.favoreme.favore.Settings.SettingsActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -41,21 +42,18 @@ public class MainActivity extends AppCompatActivity {
     private ListView lst;
     private ArrayList<Post> posts;
     private Date dt;
-    static {
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-    }
+
     private DatabaseReference fdb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dt = new Date();
-        auth = FirebaseAuth.getInstance();
-        usr = auth.getCurrentUser();
+
         bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom);
         toolbar = (Toolbar) findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
-        fdb= FirebaseDatabase.getInstance().getReference();
+
         if (usr == null){
             //if not signed in, launch the Sign In Activity
             startActivity(new Intent(this, LoginActivity.class));
