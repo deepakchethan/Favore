@@ -23,18 +23,13 @@ import com.favoreme.favore.Login.LoginActivity;
 import com.favoreme.favore.Models.Loci;
 import com.favoreme.favore.Models.Post;
 import com.favoreme.favore.Settings.SettingsActivity;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.favoreme.favore.api.Favore;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
-    private FirebaseAuth auth;
-    private FirebaseUser usr;
     private Button btn;
     private Toolbar toolbar;
     private BottomNavigationView bottomNavigationView;
@@ -42,19 +37,19 @@ public class MainActivity extends AppCompatActivity {
     private ListView lst;
     private ArrayList<Post> posts;
     private Date dt;
+    public Favore favore;
 
-    private DatabaseReference fdb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dt = new Date();
-
+        favore = Favore.get(this);
         bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom);
         toolbar = (Toolbar) findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
 
-        if (usr == null){
+        if (!favore.isLoggedIn()){
             //if not signed in, launch the Sign In Activity
             startActivity(new Intent(this, LoginActivity.class));
             finish();
@@ -87,8 +82,7 @@ public class MainActivity extends AppCompatActivity {
                                 if (l != null) {
 
                                     Loci loci = new Loci(l.getLongitude(), l.getLatitude());
-                                    Post post = new Post(fdb.push().getKey(), usr.getDisplayName(), post_text, loci, dt.getTime(), 0, usr.getPhotoUrl().toString());
-                                    fdb.child("Posts").child(post.getPost_id()).setValue(post);
+
                                 }
 
                             }

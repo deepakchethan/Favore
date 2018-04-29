@@ -33,6 +33,9 @@ var UserSchema = new Schema({
   bio:{
     type:String
   },
+    gender:{
+	type:String
+    },
   friends:{
     type:[Number]
   },

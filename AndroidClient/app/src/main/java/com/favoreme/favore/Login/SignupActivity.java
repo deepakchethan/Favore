@@ -14,34 +14,38 @@ import android.widget.Toast;
 
 import com.favoreme.favore.MainActivity;
 import com.favoreme.favore.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
+import com.favoreme.favore.api.Backend;
+import com.favoreme.favore.api.Favore;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+
 
 public class SignupActivity extends AppCompatActivity {
 
     Button btn;
-    EditText fname,lname,dname,pass,repass,pcode,pnum,email;
+    EditText pass,repass,email;
     ProgressBar progressBar2;
-    private FirebaseAuth auth;
-    public static String semail;
+    private Backend backend;
+    Favore favore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-
-
-        btn = (Button)findViewById(R.id.signupbutton);
-        auth = FirebaseAuth.getInstance();
-
-        email = (EditText) findViewById(R.id.email);
-        pass = (EditText) findViewById(R.id.pass);
-        repass = (EditText) findViewById(R.id.rpass);
-
+        backend = Backend.get(getApplicationContext());
+        favore = Favore.get(getApplicationContext());
+        email = (EditText) findViewById(R.id.semail);
+        pass = (EditText) findViewById(R.id.spass);
+        repass = (EditText) findViewById(R.id.srpass);
         btn = (Button) findViewById(R.id.signUp);
         progressBar2 = (ProgressBar) findViewById(R.id.signupProgress);
-        pcode.setText("+91");
+
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,39 +53,83 @@ public class SignupActivity extends AppCompatActivity {
                 String email_add = email.getText().toString();
                 String password = pass.getText().toString();
                 String rpassaword = repass.getText().toString();
-
+                setState(false);
                 if (TextUtils.isEmpty(password) || TextUtils.isEmpty(rpassaword) || TextUtils.isEmpty(email_add)){
                     Toast.makeText(getApplicationContext(),"All fields are mandatory mate",Toast.LENGTH_SHORT).show();
+                    setState(true);
                     return;
                 }
 
                 if (!password.equals(rpassaword)){
                     Toast.makeText(getApplicationContext(),"Passwords Doesn't match!",Toast.LENGTH_SHORT).show();
+                    setState(true);
                     return;
                 }
                 if (password.length() < 8){
                     Toast.makeText(getApplicationContext(),"Password must be longer than 8 digits",Toast.LENGTH_SHORT).show();
+                    setState(true);
                     return;
                 }
 
-                progressBar2.setVisibility(View.VISIBLE);
-                auth.createUserWithEmailAndPassword(email_add,password)
-                        .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (!task.isSuccessful()){
-                                    Toast.makeText(SignupActivity.this,"Unable to create user",Toast.LENGTH_SHORT);
+                try {
+                    backend.Signup(email_add,password).enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            favore.toasty("Unable to signup");
+                        }
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            JSONObject jsonObject = null;
+                            try {
+                                jsonObject = new JSONObject(response.body().string());
+                                if (jsonObject.getBoolean("success")){
+                                    Intent intent = new Intent(SignupActivity.this,LoginActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    favore.toasty("Successful signup, login now!");
+                                    startActivity(intent);
                                 }else{
-                                    Toast.makeText(SignupActivity.this,"Created User",Toast.LENGTH_SHORT);
-                                    startActivity(new Intent(SignupActivity.this, Extra_details_activity.class));
-                                    finish();
+                                    setState(true);
+                                    favore.toasty("Unable to signup! "+jsonObject.getString("msg"));
                                 }
+                            } catch (JSONException e) {
+                                setState(true);
+                                favore.toasty("Unable to signup!");
+                                e.printStackTrace();
                             }
-                        });
-                semail = email_add;
+                        }
+                    });
+                } catch (IOException e) {
+                    setState(true);
+                    favore.toasty("Unable to signup!");
+                    e.printStackTrace();
+                }
 
             }
         });
+
+    }
+    void setState(Boolean state){
+        if (state) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    email.setEnabled(true);
+                    pass.setEnabled(true);
+                    repass.setEnabled(true);
+                    progressBar2.setVisibility(View.GONE);
+                }
+            });
+        }else{
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    email.setEnabled(false);
+                    pass.setEnabled(false);
+                    repass.setEnabled(false);
+                    progressBar2.setVisibility(View.VISIBLE);
+                }
+            });
+        }
 
     }
 }

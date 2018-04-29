@@ -3,36 +3,46 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/signupback"
+    android:background="@color/colorPrimaryDark"
+    android:padding="16dp"
     android:layout_height="match_parent"
-
     tools:context="com.favoreme.favore.Login.SignupActivity">
 
-        <EditText
+    <EditText
+        android:backgroundTint="@color/white"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:layout_marginTop="40dp"
         android:layout_width="match_parent"
-        android:layout_below="@id/phone"
-        android:id="@+id/email"
-            android:layout_marginTop="200dp"
+        android:id="@+id/semail"
         android:inputType="textEmailAddress"
         android:layout_marginBottom="10dp"
         android:layout_height="wrap_content"
         android:hint="Email"/>
 
     <EditText
+        android:backgroundTint="@color/white"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_below="@id/email"
-        android:id="@+id/pass"
+        android:layout_below="@id/semail"
+        android:id="@+id/spass"
         android:inputType="textPassword"
         android:layout_marginBottom="10dp"
         android:layout_height="wrap_content"
         android:hint="Password"/>
 
     <EditText
+        android:backgroundTint="@color/white"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
         android:layout_width="match_parent"
-        android:layout_below="@id/pass"
-        android:id="@+id/rpass"
+        android:layout_below="@id/spass"
+        android:id="@+id/srpass"
         android:inputType="textPassword"
         android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
         android:layout_height="wrap_content"
         android:hint="Retype Password"/>
 
@@ -41,19 +51,20 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/pass"
+            android:layout_alignBottom="@+id/spass"
             android:layout_centerHorizontal="true"
             android:visibility="gone"
             android:layout_marginBottom="20dp" />
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
+        android:textColor="@color/colorPrimaryDark"
         android:id="@+id/signUp"
-        android:background="@color/colorPrimary"
-        android:layout_below="@id/dope"
-        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:layout_below="@id/srpass"
+        android:layout_marginTop="20dp"
         android:text="Sign Up"
         />
 

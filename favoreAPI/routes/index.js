@@ -35,17 +35,24 @@ router.post('/signup/',function(req,res,next){
   if (!req.body.username || !req.body.password){
     res.json({success:false, msg:'Please fill up stuff'});
   }else{
-    var newUser = new User({
-      username: req.body.username,
-      password:req.body.password
-    });
-    newUser.save(function(err,success){
-      if(err){
-        return res.json({success: false, msg:'Username already exists'});
-      }
-
-      res.json({success:true,msg:'Successfully created new user',success});
-    })
+      User.findOne({username:req.body.username},function(err,usr){
+	  if (err){
+	      res.json({success:false,msg:"Some kind of error"});
+	  }
+	  else if (usr != null){
+	      res.json({success:false,msg:"User already exists"});
+	  }else{
+	      var newUser = new User({
+		  username: req.body.username,
+		  password:req.body.password
+	      });
+	      newUser.save(function(err,success){
+		  if(err){
+		      res.json({success: false, msg:'Username already exists'});
+		  }
+		  res.json({success:true,msg:'Successfully created new user'});
+	      })
+	  }});  
   }
 });
 

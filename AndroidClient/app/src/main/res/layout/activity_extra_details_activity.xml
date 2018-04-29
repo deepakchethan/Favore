@@ -19,7 +19,7 @@
                 android:layout_height="120dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="false"
-                android:src="@drawable/background"
+                android:src="@mipmap/ic_launcher_round"
                 app:civ_border_color="@color/white"
                 app:civ_border_width="3dp" >
                 </de.hdodenhof.circleimageview.CircleImageView>
@@ -66,7 +66,7 @@
             android:id="@+id/phone"
             android:layout_marginBottom="10dp"
             android:layout_below="@id/about"
-            android:orientation="horizontal">
+            android:orientation="vertical">
             <EditText
                 android:layout_width="match_parent"
                 android:id="@+id/pnum"
@@ -74,6 +74,14 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:hint="Phone"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/age"
+                android:layout_marginTop="10dp"
+                android:hint="age"
+                android:inputType="number"/>
         </LinearLayout>
 
         <RadioGroup
@@ -105,7 +113,6 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/pass"
             android:layout_centerHorizontal="true"
             android:visibility="gone"
             android:layout_marginBottom="20dp" />

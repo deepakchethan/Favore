@@ -2,6 +2,7 @@ package com.favoreme.favore.api;
 
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -13,24 +14,27 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
+
 
 public class Backend {
     private static Backend ref = new Backend();
     private static Context mContext;
-    private String mUrl = "172.16.16.16:3000";
+    private String mUrl = "http://192.168.43.119:3000";
     private OkHttpClient client;
     private Response mResponse =  null;
     public Backend(){}
-
+    private String TAG = "Backend";
+    HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
     public static Backend get(Context context){
         mContext = context;
         return ref;
     }
-    public void toasty(String txt){
-        Toast.makeText(mContext,txt,Toast.LENGTH_SHORT).show();
+    void toasty(String st){
+
     }
 
-    public String Signup(String email, String pass) throws IOException {
+    public  Call Signup(String email, String pass) throws IOException {
          client = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         RequestBody body = RequestBody.create(mediaType, "username="+email+"&password="+pass);
@@ -40,42 +44,53 @@ public class Backend {
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
                 .addHeader("Cache-Control", "no-cache")
                 .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                   toasty("Unable to create account");
-            }
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                mResponse = response;
-            }
-        });
-        return mResponse.body().string();
+        Call call = client.newCall(request);
+        return call;
     }
+    public String test(){
+        logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
+        client = new OkHttpClient.Builder().addInterceptor(logging).build();
 
-    public String Signin(String email,String pass) throws IOException{
-         client = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-        RequestBody body = RequestBody.create(mediaType, "username="+email+"&password="+pass);
+        RequestBody body = RequestBody.create(mediaType, "username=email+&password=pass");
         Request request = new Request.Builder()
-                .url(mUrl+"/signin")
+                .url("https://httpbin.org/post")
                 .post(body)
+
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
                 .addHeader("Cache-Control", "no-cache")
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                toasty("Could not signin!");
+                Log.i(TAG, "onFailure: OKHTTP"+e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                    mResponse = response;
+                Log.i(TAG, "onResponse: OKHTTP"+response);
             }
         });
-        return mResponse.body().string();
+        return null;
     }
+
+    public Call Signin(String email,String pass) throws IOException{
+        logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
+         client = new OkHttpClient.Builder().addInterceptor(logging).build();
+
+        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+        RequestBody body = RequestBody.create(mediaType, "username="+email+"&password="+pass);
+        Log.i(TAG, "Signin: "+mUrl+"/signin");
+        Request request = new Request.Builder()
+                .url(mUrl+"/signin")
+                .post(body)
+                .addHeader("Content-Type", "application/x-www-form-urlencoded")
+                .addHeader("Cache-Control", "no-cache")
+                .build();
+        Call call = client.newCall(request);
+        return call;
+    }
+
     public String WritePost(long lon,long lat,String postText,long uid,long date) throws IOException{
          client = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/json");
@@ -89,7 +104,9 @@ public class Backend {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+
                 toasty("Unable to post it");
+
             }
 
             @Override
@@ -97,6 +114,9 @@ public class Backend {
                 mResponse = response;
             }
         });
+        if (mResponse == null){
+            return null;
+        }
         return mResponse.body().string();
     }
     public String RemovePost(long id) throws IOException {
@@ -139,27 +159,17 @@ public class Backend {
         });
         return mResponse.body().string();
     }
-    public String GetUserDetails(long uid) throws IOException {
+    public Call GetUserDetails(long uid) throws IOException {
          client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(mUrl+"/user/getUserDetails/"+uid)
                 .get()
                 .addHeader("Cache-Control", "no-cache")
                 .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                toasty("Unable to get user info");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                mResponse = response;
-            }
-        });
-        return mResponse.body().string();
+        Call call = client.newCall(request);
+        return call;
     }
-    public String EditUser(String fname, String lname,String dname,String email,String phone,String bio,String age) throws IOException {
+    public Call EditUser(String fname, String lname,String dname,String email,String phone,String bio,String age) throws IOException {
          client = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         RequestBody body = RequestBody.create(mediaType, "fname="+fname+"&lname="+lname+"&dname="+dname+"&username="+email+"&phone="+phone+"&bio="+bio+"&id=1&age="+age);
@@ -169,18 +179,8 @@ public class Backend {
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
                 .addHeader("Cache-Control", "no-cache")
                 .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                toasty("Unable to edit user info!");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                mResponse = response;
-            }
-        });
-        return mResponse.body().string();
+        Call call = client.newCall(request);
+        return call;
     }
 
     public String AddFriend(long usr,long frnd) throws IOException {

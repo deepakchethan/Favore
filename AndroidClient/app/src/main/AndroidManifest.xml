@@ -24,7 +24,7 @@
         <activity android:name=".Login.SignupActivity" />
         <activity android:name=".Login.ResetPasswordActivity" />
         <activity android:name=".Login.Extra_details_activity" />
-        <activity android:name=".Settings.SettingsActivity"></activity>
+        <activity android:name=".Settings.SettingsActivity" />
     </application>
 
 </manifest>
