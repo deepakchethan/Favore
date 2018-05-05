@@ -22,7 +22,7 @@ Request request = new Request.Builder()
   .build();
 Response response = client.newCall(request).execute();
 
-* Create Posts:
+* Create Text Posts:
 OkHttpClient client = new OkHttpClient();
 MediaType mediaType = MediaType.parse("application/json");
 RequestBody body = RequestBody.create(mediaType, "{\n\n\t\"location\":{\"type\":\"point\",\"coordinates\":[-80,25.791]},\n\t\"favors\":0,\n\t\"postText\":\"This is first post\",\n\t\"age\":0,\n\t\"posterId\":1,\n\t\"date\":1523970977506\n}");
@@ -30,24 +30,42 @@ Request request = new Request.Builder()
   .url("http://localhost:3000/user/post")
   .post(body)
   .addHeader("Content-Type", "application/json")
+  .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmllbmRzIjpbXSwicG9zdHMiOltdLCJjcmVhdGVBdCI6IjIwMTgtMDQtMjhUMDM6MjQ6NDUuODI2WiIsInVwZGF0ZUF0IjoiMjAxOC0wNC0yOFQwMzoyNDo0Ni4wNzVaIiwiX2lkIjoiNWFlM2U5N2RiMmE2YWQxMmVmMjE5ZWU0IiwidXNlcm5hbWUiOiJkb2RvY29jbyIsInBhc3N3b3JkIjoiJDJhJDEwJGU0WkJZMzZxSUlXOGg1alVBaHA2V3V1ZUJHcEJ2bHBFREwzN21STzVTdjBpaUdFLkowV1p5IiwiaWQiOjEsIl9fdiI6MCwiaWF0IjoxNTI0ODg1ODkzfQ.1yA5Xz-p6jcc61a3qDLcTsZ_NFAmZeu3xhD7vxBd-uM")
   .addHeader("Cache-Control", "no-cache")
+  .build();
+Response response = client.newCall(request).execute();
+
+* Create Image Posts:
+OkHttpClient client = new OkHttpClient();
+MediaType mediaType = MediaType.parse("multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW");
+RequestBody body = RequestBody.create(mediaType, "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"location\"\r\n\r\n{\"type\":\"point\",\"coordinates\":[-80,25.791]}\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"favors\"\r\n\r\n0\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"postText\"\r\n\r\nThis is first post\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"age\"\r\n\r\n0\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"posterId\"\r\n\r\n15\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"date\"\r\n\r\n1523970977506\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"file\"\r\n\r\n\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--");
+Request request = new Request.Builder()
+  .url("http://192.168.43.120:3000/user/postimg")
+  .post(body)
+  .addHeader("content-type", "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW")
+  .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmllbmRzIjpbXSwicG9zdHMiOltdLCJjcmVhdGVBdCI6IjIwMTgtMDQtMjlUMDQ6MTQ6MTYuMjA2WiIsInVwZGF0ZUF0IjoiMjAxOC0wNC0yOVQwNDoxNDoxNi40NTlaIiwiX2lkIjoiNWFlNTQ2OTg4MzlkZWUzNTZiYTM5YjQwIiwidXNlcm5hbWUiOiJkb2RvY29jbyIsInBhc3N3b3JkIjoiJDJhJDEwJEpRN2RRY3FYTGVhcnlZOUN3SjlqRy5YbTE2WDc2WDc3MUxkaHRaYVA4VlZ4QVhWSUxNRUFhIiwiaWQiOjE1LCJfX3YiOjAsImlhdCI6MTUyNTE0OTM1MH0.pa9uf4nqSpvo_zLDyFewd2vBFdTjWSY1ZbSSSTYw2Ew")
+  .addHeader("Cache-Control", "no-cache")
+  .addHeader("Postman-Token", "cc1cf99c-cfa6-46ef-a1ce-8f156df0aaa3")
   .build();
 Response response = client.newCall(request).execute();
 
 * Fetch Posts:
 OkHttpClient client = new OkHttpClient();
 Request request = new Request.Builder()
-  .url("http://localhost:3000/user/fetchPosts?lon=-80&lat=25.791")
+  .url("http://192.168.43.200:3333/user/fetchPosts?lon=-80&lat=25.791")
   .get()
+  .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmllbmRzIjpbXSwicG9zdHMiOltdLCJjcmVhdGVBdCI6IjIwMTgtMDQtMjhUMDM6MjQ6NDUuODI2WiIsInVwZGF0ZUF0IjoiMjAxOC0wNC0yOFQwMzoyNDo0Ni4wNzVaIiwiX2lkIjoiNWFlM2U5N2RiMmE2YWQxMmVmMjE5ZWU0IiwidXNlcm5hbWUiOiJkb2RvY29jbyIsInBhc3N3b3JkIjoiJDJhJDEwJGU0WkJZMzZxSUlXOGg1alVBaHA2V3V1ZUJHcEJ2bHBFREwzN21STzVTdjBpaUdFLkowV1p5IiwiaWQiOjEsIl9fdiI6MCwiaWF0IjoxNTI0ODg1ODkzfQ.1yA5Xz-p6jcc61a3qDLcTsZ_NFAmZeu3xhD7vxBd-uM")
   .addHeader("Cache-Control", "no-cache")
   .build();
 Response response = client.newCall(request).execute();
+
 
 * Remove Posts:
 OkHttpClient client = new OkHttpClient();
 Request request = new Request.Builder()
   .url("http://localhost:3000/user/removePost/13")
   .get()
+  .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmllbmRzIjpbXSwicG9zdHMiOltdLCJjcmVhdGVBdCI6IjIwMTgtMDQtMjhUMDM6MjQ6NDUuODI2WiIsInVwZGF0ZUF0IjoiMjAxOC0wNC0yOFQwMzoyNDo0Ni4wNzVaIiwiX2lkIjoiNWFlM2U5N2RiMmE2YWQxMmVmMjE5ZWU0IiwidXNlcm5hbWUiOiJkb2RvY29jbyIsInBhc3N3b3JkIjoiJDJhJDEwJGU0WkJZMzZxSUlXOGg1alVBaHA2V3V1ZUJHcEJ2bHBFREwzN21STzVTdjBpaUdFLkowV1p5IiwiaWQiOjEsIl9fdiI6MCwiaWF0IjoxNTI0ODg1ODkzfQ.1yA5Xz-p6jcc61a3qDLcTsZ_NFAmZeu3xhD7vxBd-uM")
   .addHeader("Cache-Control", "no-cache")
   .build();
 Response response = client.newCall(request).execute();
@@ -57,19 +75,24 @@ OkHttpClient client = new OkHttpClient();
 Request request = new Request.Builder()
   .url("http://localhost:3000/user/getUserDetails/5ae2b09d21e7614842553984")
   .get()
+  .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YWQ1ZjVhODNjYTAwZDI2NTgyMmQzN2QiLCJ1c2VybmFtZSI6ImRvZG9jb2NvIiwicGFzc3dvcmQiOiIkMmEkMTAkVmtKSWZNN2EvRFVYWVU2U281WUxidVpFTVJIYmtxOGlYME02ZERRRmZrZ0YweEQvME5GSzIiLCJfX3YiOjAsImlhdCI6MTUyMzk3MTc3M30.vRLv5l_lvT-yjShejRDy-Q65hKDuIqocWR8yqqPI7I8")
   .addHeader("Cache-Control", "no-cache")
   .build();
 Response response = client.newCall(request).execute();
 
+
 * Edit User:
 OkHttpClient client = new OkHttpClient();
-MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-RequestBody body = RequestBody.create(mediaType, "fname=Deepak&lname=Chethan&dname=dodococo&username=dodococo&phone=7848948784&bio=Life%20is%20great&id=1&age=21");
+MediaType mediaType = MediaType.parse("multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW");
+RequestBody body = RequestBody.create(mediaType, "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"file\"; filename=\"picOne.png\"\r\nContent-Type: image/png\r\n\r\n\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"fname\"\r\n\r\nDeepak\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"lname\"\r\n\r\nChethan\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"dname\"\r\n\r\ndodococo\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"uname\"\r\n\r\ndodococo\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"phone\"\r\n\r\n7848948784\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"age\"\r\n\r\n21\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"bio\"\r\n\r\nEverything is nice\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"id\"\r\n\r\n15\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--");
 Request request = new Request.Builder()
-  .url("http://localhost:3000/user/edituser/")
+  .url("http://192.168.43.120:3000/user/edituser/")
   .post(body)
+  .addHeader("content-type", "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW")
   .addHeader("Content-Type", "application/x-www-form-urlencoded")
+  .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmllbmRzIjpbXSwicG9zdHMiOltdLCJjcmVhdGVBdCI6IjIwMTgtMDQtMjlUMDQ6MTQ6MTYuMjA2WiIsInVwZGF0ZUF0IjoiMjAxOC0wNC0yOVQwNDoxNDoxNi40NTlaIiwiX2lkIjoiNWFlNTQ2OTg4MzlkZWUzNTZiYTM5YjQwIiwidXNlcm5hbWUiOiJkb2RvY29jbyIsInBhc3N3b3JkIjoiJDJhJDEwJEpRN2RRY3FYTGVhcnlZOUN3SjlqRy5YbTE2WDc2WDc3MUxkaHRaYVA4VlZ4QVhWSUxNRUFhIiwiaWQiOjE1LCJfX3YiOjAsImlhdCI6MTUyNTE0OTM1MH0.pa9uf4nqSpvo_zLDyFewd2vBFdTjWSY1ZbSSSTYw2Ew")
   .addHeader("Cache-Control", "no-cache")
+  .addHeader("Postman-Token", "890b1a51-0404-45b0-896d-94d9fb0da501")
   .build();
 Response response = client.newCall(request).execute();
 
@@ -78,6 +101,8 @@ OkHttpClient client = new OkHttpClient();
 Request request = new Request.Builder()
   .url("http://localhost:3000/user/addfriend/?usr=1&frnd=3")
   .get()
+  .addHeader("Cache-Control", "no-cache")
+  .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmllbmRzIjpbXSwicG9zdHMiOltdLCJjcmVhdGVBdCI6IjIwMTgtMDQtMjlUMDQ6MTQ6MTYuMjA2WiIsInVwZGF0ZUF0IjoiMjAxOC0wNC0yOVQwNDoxNDoxNi40NTlaIiwiX2lkIjoiNWFlNTQ2OTg4MzlkZWUzNTZiYTM5YjQwIiwidXNlcm5hbWUiOiJkb2RvY29jbyIsInBhc3N3b3JkIjoiJDJhJDEwJEpRN2RRY3FYTGVhcnlZOUN3SjlqRy5YbTE2WDc2WDc3MUxkaHRaYVA4VlZ4QVhWSUxNRUFhIiwiaWQiOjE1LCJfX3YiOjAsImlhdCI6MTUyNTE0OTM1MH0.pa9uf4nqSpvo_zLDyFewd2vBFdTjWSY1ZbSSSTYw2Ew")
   .addHeader("Cache-Control", "no-cache")
   .build();
 Response response = client.newCall(request).execute();
@@ -88,6 +113,8 @@ Request request = new Request.Builder()
   .url("http://localhost:3000/user/removeFriend/?usr=1&frnd=3")
   .get()
   .addHeader("Cache-Control", "no-cache")
+  .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmllbmRzIjpbXSwicG9zdHMiOltdLCJjcmVhdGVBdCI6IjIwMTgtMDQtMjlUMDQ6MTQ6MTYuMjA2WiIsInVwZGF0ZUF0IjoiMjAxOC0wNC0yOVQwNDoxNDoxNi40NTlaIiwiX2lkIjoiNWFlNTQ2OTg4MzlkZWUzNTZiYTM5YjQwIiwidXNlcm5hbWUiOiJkb2RvY29jbyIsInBhc3N3b3JkIjoiJDJhJDEwJEpRN2RRY3FYTGVhcnlZOUN3SjlqRy5YbTE2WDc2WDc3MUxkaHRaYVA4VlZ4QVhWSUxNRUFhIiwiaWQiOjE1LCJfX3YiOjAsImlhdCI6MTUyNTE0OTM1MH0.pa9uf4nqSpvo_zLDyFewd2vBFdTjWSY1ZbSSSTYw2Ew")
+  .addHeader("Cache-Control", "no-cache")
   .build();
 Response response = client.newCall(request).execute();
 
@@ -97,5 +124,11 @@ Request request = new Request.Builder()
   .url("http://localhost:3000/user/getFriendList/1")
   .get()
   .addHeader("Cache-Control", "no-cache")
+  .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmllbmRzIjpbXSwicG9zdHMiOltdLCJjcmVhdGVBdCI6IjIwMTgtMDQtMjlUMDQ6MTQ6MTYuMjA2WiIsInVwZGF0ZUF0IjoiMjAxOC0wNC0yOVQwNDoxNDoxNi40NTlaIiwiX2lkIjoiNWFlNTQ2OTg4MzlkZWUzNTZiYTM5YjQwIiwidXNlcm5hbWUiOiJkb2RvY29jbyIsInBhc3N3b3JkIjoiJDJhJDEwJEpRN2RRY3FYTGVhcnlZOUN3SjlqRy5YbTE2WDc2WDc3MUxkaHRaYVA4VlZ4QVhWSUxNRUFhIiwiaWQiOjE1LCJfX3YiOjAsImlhdCI6MTUyNTE0OTM1MH0.pa9uf4nqSpvo_zLDyFewd2vBFdTjWSY1ZbSSSTYw2Ew")
+  .addHeader("Cache-Control", "no-cache")
   .build();
 Response response = client.newCall(request).execute();
+
+//Settings and stuff
+
+

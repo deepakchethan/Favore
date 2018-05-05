@@ -10,6 +10,9 @@ import android.widget.Toast;
 import com.favoreme.favore.Login.LoginActivity;
 import com.favoreme.favore.Models.User;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Favore {
 
     private static Favore ref = new Favore();
@@ -23,6 +26,7 @@ public class Favore {
     //Shared pref INFO
     // login: log stores if the user is logged in
     // login: jkey stores the jwt key of the user
+    // login: jkey stores the uid of the user
 
     // user: fname stores the first name of the user
     // user: lname stores the last name of the user
@@ -52,17 +56,29 @@ public class Favore {
 
     }
 
-    private void setDeets(int uid,String fname,String lname,String dname,String uname,String bio,int age){
+    public User getOwner(){
+        return Owner;
+    }
+
+    public void setDeets(JSONObject user){
         mSharedPreferences = mContext.getSharedPreferences("user",Context.MODE_PRIVATE);
         editor = mSharedPreferences.edit();
-        editor.putString("fname",fname).apply();
-        editor.putString("lname",lname).apply();
-        editor.putString("dname",dname).apply();
-        editor.putString("uname",uname).apply();
-        editor.putString("bio",bio).apply();
-        editor.putBoolean("sync",true).apply();
-        editor.putInt("age",age).apply();
-        editor.putInt("uid",uid).apply();
+        try {
+            editor.putString("fname",user.getString("fname")).apply();
+            editor.putString("lname",user.getString("lname")).apply();
+            editor.putString("dname",user.getString("dname")).apply();
+            editor.putString("uname",user.getString("username")).apply();
+            editor.putString("phone",user.getString("phone")).apply();
+            editor.putString("gender",user.getString("gender")).apply();
+            editor.putString("bio",user.getString("bio")).apply();
+            editor.putBoolean("sync",true).apply();
+            editor.putInt("age",user.getInt("age")).apply();
+            editor.putInt("uid",user.getInt("id")).apply();
+        } catch (JSONException e) {
+            toasty("Unable to setup user details!");
+            e.printStackTrace();
+        }
+
     }
 
     Handler h = new Handler(){

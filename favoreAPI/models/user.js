@@ -33,14 +33,17 @@ var UserSchema = new Schema({
   bio:{
     type:String
   },
-    gender:{
-	type:String
-    },
+  gender:{
+	   type:String
+  },
   friends:{
     type:[Number]
   },
   posts:{
     type:[Number]
+  },
+  profileImg:{
+    type:String
   }
 });
 

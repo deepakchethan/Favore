@@ -19,7 +19,7 @@ router.post('/signin/', function(req, res, next) {
       user.comparePassword(req.body.password, function(err, isMatch){
         if (isMatch && !err){
           var token = jwt.sign(user.toObject(), config.secret);
-          res.json({success:true, token:'JWT '+token});
+          res.json({success:true, token:'JWT '+token, user:user});
         }else{
 
           res.status(401).send({success:false, msg:'Authentication failed. Wrong password'});
@@ -52,7 +52,7 @@ router.post('/signup/',function(req,res,next){
 		  }
 		  res.json({success:true,msg:'Successfully created new user'});
 	      })
-	  }});  
+	  }});
   }
 });
 

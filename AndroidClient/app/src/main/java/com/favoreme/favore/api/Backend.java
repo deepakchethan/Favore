@@ -5,11 +5,13 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.IOException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -23,17 +25,17 @@ public class Backend {
     private String mUrl = "http://192.168.43.119:3000";
     private OkHttpClient client;
     private Response mResponse =  null;
+    private static Favore favore;
     public Backend(){}
     private String TAG = "Backend";
     HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+
+
     public static Backend get(Context context){
         mContext = context;
+        favore = Favore.get(context);
         return ref;
     }
-    void toasty(String st){
-
-    }
-
     public  Call Signup(String email, String pass) throws IOException {
          client = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
@@ -104,9 +106,7 @@ public class Backend {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-
-                toasty("Unable to post it");
-
+                favore.toasty("Unable to post it");
             }
 
             @Override
@@ -129,7 +129,7 @@ public class Backend {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                toasty("Unable to remove the post");
+                favore.toasty("Unable to remove the post");
             }
 
             @Override
@@ -149,7 +149,7 @@ public class Backend {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                toasty("Unable to get the posts for now");
+                favore.toasty("Unable to get the posts for now");
             }
 
             @Override
@@ -169,15 +169,33 @@ public class Backend {
         Call call = client.newCall(request);
         return call;
     }
-    public Call EditUser(String fname, String lname,String dname,String email,String phone,String bio,String age) throws IOException {
-         client = new OkHttpClient();
-        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-        RequestBody body = RequestBody.create(mediaType, "fname="+fname+"&lname="+lname+"&dname="+dname+"&username="+email+"&phone="+phone+"&bio="+bio+"&id=1&age="+age);
+    public Call EditUser(int id,String fname, String lname,String dname,String email,String phone,String bio,String age,String path) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+//        MediaType mediaType = MediaType.parse("multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW");
+//        RequestBody body = RequestBody.create(mediaType, "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; " +
+//                "name=\"file\"; filename=\"="+imagename+"\"\r\nContent-Type: image/jpeg\r\n\r\n\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r" +
+//                "\nContent-Disposition: form-data; name=\"fname\"\r\n\r\n"+fname+"\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW" +
+//                "\r\nContent-Disposition: form-data; name=\"lname\"\r\n\r\n"+lname+"\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r" +
+//                "\nContent-Disposition: form-data; name=\"dname\"\r\n\r\n"+dname+"\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW" +
+//                "\r\nContent-Disposition: form-data; name=\"phone\"\r\n\r\n"+phone+"\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW" +
+//                "\r\nContent-Disposition: form-data; name=\"age\"\r\n\r\n"+age+"\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW" +
+//                "\r\nContent-Disposition: form-data; name=\"bio\"\r\n\r\n"+bio+"\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW" +
+//                "\r\nContent-Disposition: form-data; name=\"id\"\r\n\r\n"+id+"\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--");
+        RequestBody body = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("fname",fname+"")
+                .addFormDataPart("lname",lname+"")
+                .addFormDataPart("dname",dname+"")
+                .addFormDataPart("phone",phone+"")
+                .addFormDataPart("age",age+"")
+                .addFormDataPart("bio",bio+"")
+                .addFormDataPart("id",id+"")
+                .addFormDataPart("file",id+".png",RequestBody.create(MediaType.parse("image/png"), new File(path)))
+                .build();
         Request request = new Request.Builder()
                 .url(mUrl+"/user/edituser/")
                 .post(body)
-                .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                .addHeader("Cache-Control", "no-cache")
+                .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmllbmRzIjpbXSwicG9zdHMiOltdLCJjcmVhdGVBdCI6IjIwMTgtMDQtMjlUMDQ6MTQ6MTYuMjA2WiIsInVwZGF0ZUF0IjoiMjAxOC0wNC0yOVQwNDoxNDoxNi40NTlaIiwiX2lkIjoiNWFlNTQ2OTg4MzlkZWUzNTZiYTM5YjQwIiwidXNlcm5hbWUiOiJkb2RvY29jbyIsInBhc3N3b3JkIjoiJDJhJDEwJEpRN2RRY3FYTGVhcnlZOUN3SjlqRy5YbTE2WDc2WDc3MUxkaHRaYVA4VlZ4QVhWSUxNRUFhIiwiaWQiOjE1LCJfX3YiOjAsImlhdCI6MTUyNTE0OTM1MH0.pa9uf4nqSpvo_zLDyFewd2vBFdTjWSY1ZbSSSTYw2Ew")
                 .build();
         Call call = client.newCall(request);
         return call;
@@ -193,7 +211,7 @@ public class Backend {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                toasty("Unable to add as friend");
+                favore.toasty("Unable to add as friend");
             }
 
             @Override
@@ -214,7 +232,7 @@ public class Backend {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                toasty("Unable to remove him as friend");
+                favore.toasty("Unable to remove him as friend");
             }
 
             @Override
@@ -235,7 +253,7 @@ public class Backend {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                toasty("Unable to fetch friend list");
+                favore.toasty("Unable to fetch friend list");
             }
 
             @Override

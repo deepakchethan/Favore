@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.favoreme.favore.Fragments.HomeFragment;
 import com.favoreme.favore.Fragments.UserPostFragment;
 import com.favoreme.favore.Location.Tracker;
+import com.favoreme.favore.Login.Extra_details_activity;
 import com.favoreme.favore.Login.LoginActivity;
 import com.favoreme.favore.Models.Loci;
 import com.favoreme.favore.Models.Post;
@@ -129,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.settings:
-                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                startActivity(new Intent(MainActivity.this, Extra_details_activity.class));
                 break;
             case R.id.app_bar_search:
                 Toast.makeText(getApplicationContext(),"This will be implemented in future",Toast.LENGTH_SHORT).show();

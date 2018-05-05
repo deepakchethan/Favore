@@ -8,39 +8,38 @@ var router = express.Router();
 var User = require("../models/user");
 var Post = require('../models/post');
 
-router.post('/postimg/',function(req,res,next){
-  // Images available at imagepath/postId.jpg
-  var img = req.files.file;
-  if (!req.files){
-    res.json({success:false,msg:"No image to upload bch!"});
+
+router.post('/updateProfile',(req,res,next)=>{
+  var path = "public/images/"+req.body.id+".jpg";
+  var stat = uploadImage(req,res,path);
+  if(stat==false){
+    res.json({success:false,msg:"Timeout mate!",error:err});
+    return;
+  }else{
+    res.json({success:true,msg:"Updated your profile pic!"});
   }
-  else {
-  var path = '/images/'
-  path.concat(req.body.posterId);
-  path.concat(JSON.stringify(req.body.location));
-  path.concat(JSON.stringify(req.body.date));
-  path.concat(".jpg");
-  file.mv(path,function(err){
-    if (err){
-      res.json({success:false,msg:"Failed to upload the file"});
-    }
-    res.json({success:true});
-  });
-  var truePath = "https://172.0.0.1:3000"
-  truePath.concat(path);
+});
+
+router.post('/postimg/',function(req,res,next){
+  var path = "public/images/"+req.body.posterId+"_"+JSON.stringify(req.body.date)+".jpg";
+  var stat = uploadImage(req,res,path);
+  if(stat==false){
+    res.json({success:false,msg:"Timeout mate!",error:err});
+    return;
+  }
   var newPost = new Post({
     postText:req.body.postText,
-    location:req.body.location,
+    location:JSON.parse(req.body.location),
     favors:req.body.favors,
     age:req.body.age,
-    date:req.body.date,
+    date:Number(req.body.date),
     posterId:req.body.posterId,
     isImage:true,
-    imagePath: truePath
-  })
+    imagePath: path
+  });
   newPost.save(function(err,suc){
     if (err){
-      res.json({success:false});
+      res.json({success:false,error:err});
     }
     else{
         User.findOne({id:req.body.posterId},function(err,usr){
@@ -61,7 +60,53 @@ router.post('/postimg/',function(req,res,next){
         });
     }
   });
+});
+
+function uploadImage(req,res,path){
+  // Images available at imagepath/postId.jpg
+  console.log(req.files);
+  var img = req.files.file;
+  if (!req.files){
+    res.json({success:false,msg:"No image to upload bch!"});
+    return false;
+  }
+  else {
+  img.mv(path,function(err){
+    if (err){
+      res.json({success:false,msg:"Failed to upload the file",error:err});
+      return false;
+    }
+    else  return true;
+  });
 }
+}
+router.post("/editUser/",function(req,res,next){
+  var user_details = req.body;
+  var path = "public/images/"+user_details.id+".jpg";
+  console.log(path);
+  var stat = uploadImage(req,res,path);
+  if (stat == false){
+    res.json({success:false,msg:"Time out!"});
+    return;
+  }
+  var path="/images/"+user_details.id+".jpg";
+  console.log(user_details);
+  User.update({id:user_details.id},{$set:{
+    fname:user_details.fname,
+    lname:user_details.lname,
+    dname:user_details.dname,
+    phone:user_details.phone,
+    age:user_details.age,
+    bio:user_details.bio,
+    profileImg:path
+  }},function(err,out){
+    if (err){
+      res.json({success:false,msg:"Some kind of error"});
+    }
+    else{
+      res.json({success:true,msg:out})
+    }
+  })
 });
 
 
@@ -210,25 +255,7 @@ router.get('/removePost/:post_id',function(req,res,next){
   });
 });
 
-router.post("/editUser/",function(req,res,next){
-  var user_details = req.body;
-  console.log(user_details);
-  User.update({id:user_details.id},{$set:{
-    fname:user_details.fname,
-    lname:user_details.lname,
-    dname:user_details.dname,
-    phone:user_details.phone,
-    age:user_details.age,
-    bio:user_details.bio
-  }},function(err,out){
-    if (err){
-      res.json({success:false,msg:"Some kind of error"});
-    }
-    else{
-      res.json({success:true,msg:out})
-    }
-  })
-});
+
 
 router.get("/favore/:post_id",function(req,res,next){
   var post_id = req.params.post_id;

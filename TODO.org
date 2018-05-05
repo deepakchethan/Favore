@@ -27,7 +27,7 @@ NODE BACK END
 * DONE Add Image Support [2/2]
   - [X] Add isImage,imageurl to model
   - [X] Some way to upload images from android app to server
-
+* DONE Do individual settings stuff for each of them.
 Android Client
 
 * UI [3/6]
@@ -38,14 +38,13 @@ Android Client
   - [X] User Details
   - [ ] Settings
 
-
 * Functionality
 
-** User Setup [3/4]
+** User Setup [4/4]
    - [X] Integrate Login
    - [X] Integrate Singup
    - [X] Store the JWT token into the shredprefs (private)
-   - [ ] Store the extra info about the user
+   - [X] Store the extra info about the user
 
 ** User Functionality [0/3]
    - [ ] Add a post
@@ -55,3 +54,4 @@ Android Client
 
 *** Few Idea Changes [1/1]
     - [X] Add a primary key like id instead of ObjectId (ObjectId changes, if document changes)
+    - [ ] Seperate uploading images and posting text as seperate entity.
