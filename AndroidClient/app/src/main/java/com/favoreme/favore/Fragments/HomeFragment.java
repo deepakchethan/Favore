@@ -29,11 +29,12 @@ public class HomeFragment extends Fragment {
         View v=inflater.inflate(R.layout.fragment_home, container, false);
 
         posts=new ArrayList<Post>();
-        posts.add(new Post("Deepak", "I am awesome"));
+        posts.add(new Post("Deepak", "I am so good at this even then I am unable to get any kind of kinky values"));
         posts.add(new Post("Chethan", "I am awesome"));
         posts.add(new Post("Deepak Chethan", "I am awesome"));
         posts.add(new Post("DC", "I am awesome"));
         posts.add(new Post("dodococo", "I am awesome too"));
+        posts.add(new Post("dodococo","I am awesome too"));
         lst = (ListView) v.findViewById(R.id.post_list);
 
         CustomAdapter customAdapter = new CustomAdapter(getActivity(),posts,R.layout.entry);

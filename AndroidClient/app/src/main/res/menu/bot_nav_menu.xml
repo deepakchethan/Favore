@@ -11,23 +11,17 @@
 
     <item
         android:title="Post"
-        android:id="@+id/text"
-        android:icon="@drawable/ic_text_format_black_24dp"
+        android:id="@+id/post"
+        android:icon="@drawable/ic_edit_24dp"
         app:showAsAction="always" />
-
-
 
     <item
         android:title="Profile"
         android:id="@+id/profile"
-        android:icon="@drawable/ic_textsms_black_24dp"
+        android:icon="@drawable/ic_user_24dp"
         app:showAsAction="always" />
 
-    <item
-        android:title="Navigation"
-        android:id="@+id/nav"
-        android:icon="@drawable/ic_add_location_black_24dp"
-        app:showAsAction="always" />
+
 
 
 </menu>

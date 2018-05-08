@@ -45,6 +45,7 @@ public class CustomAdapter  extends ArrayAdapter<Post>{
         viewHolder.poster.setText(post.getPoster().toString());
         viewHolder.post_text.setText(post.getPost().toString());
 
+
         return v;
     }
 
@@ -52,6 +53,7 @@ public class CustomAdapter  extends ArrayAdapter<Post>{
         TextView poster;
         TextView post_text;
         ImageView profile;
+
         ViewHolder(View v){
             poster=(TextView)v.findViewById(R.id.poster);
             post_text=(TextView)v.findViewById(R.id.post_text);

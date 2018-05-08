@@ -3,6 +3,7 @@ package com.favoreme.favore.api;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.LocationManager;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
@@ -39,7 +40,16 @@ public class Favore {
     // User details start here
 
     private int uid,age;
-    private String fname,lname,dname,uname,bio,phone,gender;
+    private String fname,lname,dname,uname,bio,phone,gender,path;
+    private boolean gps = false;
+    private LocationManager lm;
+
+    public boolean isGpsEnabled(){
+        return gps;
+    }
+    public void setGpsEnabled(){
+        this.gps=true;
+    }
 
     private void fetchDeets(){
         mSharedPreferences = mContext.getSharedPreferences("user",Context.MODE_PRIVATE);
@@ -49,10 +59,11 @@ public class Favore {
         uname = mSharedPreferences.getString("uname",null);
         phone = mSharedPreferences.getString("phone",null);
         gender = mSharedPreferences.getString("gender",null);
+        path = mSharedPreferences.getString("profileImg",null);
         uid = mSharedPreferences.getInt("uid",-1);
         age = mSharedPreferences.getInt("age",-1);
         bio = mSharedPreferences.getString("bio",null);
-        Owner = new User(uid,fname,lname,uname,dname,gender,phone,bio,age);
+        Owner = new User(uid,fname,lname,uname,dname,path,gender,phone,bio,age);
 
     }
 
@@ -70,6 +81,7 @@ public class Favore {
             editor.putString("uname",user.getString("username")).apply();
             editor.putString("phone",user.getString("phone")).apply();
             editor.putString("gender",user.getString("gender")).apply();
+            editor.putString("profileImg",user.getString("profileImg")).apply();
             editor.putString("bio",user.getString("bio")).apply();
             editor.putBoolean("sync",true).apply();
             editor.putInt("age",user.getInt("age")).apply();
@@ -78,7 +90,6 @@ public class Favore {
             toasty("Unable to setup user details!");
             e.printStackTrace();
         }
-
     }
 
     Handler h = new Handler(){
@@ -95,7 +106,9 @@ public class Favore {
         msg.sendToTarget();
     }
     public Favore(){
-
+       // lm = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+       // boolean isGPSEnabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+       // if (isGPSEnabled) setGpsEnabled();
     }
     public static Favore get(Context context){
         mContext = context;
@@ -132,7 +145,7 @@ public class Favore {
     }
 
     private void fetchKey(){
-        mSharedPreferences = mContext.getSharedPreferences("jwtkey",Context.MODE_PRIVATE);
-        key = mSharedPreferences.getString("jKey","");
+        mSharedPreferences = mContext.getSharedPreferences("login",Context.MODE_PRIVATE);
+        key = mSharedPreferences.getString("jKey",null);
     }
 }

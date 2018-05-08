@@ -20,16 +20,27 @@ router.post('/updateProfile',(req,res,next)=>{
   }
 });
 
+router.post('/getuserposts/:usr_id',function(req,res,next){
+    var uid = req.params.usr_id;
+    Post.find({posterId:uid},function(err,posts){
+	if (err){
+	    res.json({success:false,msg:"unable to fetch posts"});
+	    return;
+	}else{
+	    res.json({success:true,post:posts});
+	}
+    }
+}
+
 router.post('/postimg/',function(req,res,next){
-  var path = "public/images/"+req.body.posterId+"_"+JSON.stringify(req.body.date)+".jpg";
+  var path = "/images/"+req.files.file.name;
   var stat = uploadImage(req,res,path);
   if(stat==false){
     res.json({success:false,msg:"Timeout mate!",error:err});
     return;
   }
   var newPost = new Post({
-    postText:req.body.postText,
-    location:JSON.parse(req.body.location),
+    location:req.body.location,
     favors:req.body.favors,
     age:req.body.age,
     date:Number(req.body.date),
@@ -37,14 +48,18 @@ router.post('/postimg/',function(req,res,next){
     isImage:true,
     imagePath: path
   });
+    
   newPost.save(function(err,suc){
     if (err){
-      res.json({success:false,error:err});
+	res.json({success:false,msg:"Unable to save the post"});
+	console.log(err);
     }
-    else{
+      else{
+	  console.log(newPost);
         User.findOne({id:req.body.posterId},function(err,usr){
           if (err){
-            res.json({success:false,msg:"Some kind of error"});
+              res.json({success:false,msg:"Some kind of error"});
+	      console.log(err);
           } if (usr == null){
             res.json({success:false,msg:"User not found"})
           } else{
@@ -111,7 +126,8 @@ router.post("/editUser/",function(req,res,next){
 
 
 router.post('/posttext/',function(req,res,next){
-  // Sending the post
+    // Sending the post
+    console.log(req.body);
   var newPost = new Post({
     postText:req.body.postText,
     location:req.body.location,

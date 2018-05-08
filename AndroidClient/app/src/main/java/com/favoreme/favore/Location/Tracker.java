@@ -44,6 +44,7 @@ public class Tracker implements LocationListener {
             return l;
         }else{
             Toast.makeText(context,"Please Enable GPS",Toast.LENGTH_SHORT).show();
+
         }
         Toast.makeText(context,"This is being printed",Toast.LENGTH_LONG).show();
         return l;

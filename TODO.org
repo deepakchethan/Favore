@@ -46,11 +46,11 @@ Android Client
    - [X] Store the JWT token into the shredprefs (private)
    - [X] Store the extra info about the user
 
-** User Functionality [0/3]
-   - [ ] Add a post
-   - [ ] Remove a post
-   - [ ] Edit a Post
-
+** User Functionality [2/3]
+   - [X] Add a post
+   - [X] Remove a post
+   - [ ] Favore a thing
+   - [ ] Fetch posts and display
 
 *** Few Idea Changes [1/1]
     - [X] Add a primary key like id instead of ObjectId (ObjectId changes, if document changes)

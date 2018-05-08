@@ -85,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                                     JSONObject user = jsonObject.getJSONObject("user");
                                     favore.logIn(jwt);
                                     favore.setDeets(user);
+
                                     //favore.toasty("Logged In "+jwt);
                                     Intent i = new Intent(LoginActivity.this, Extra_details_activity.class);
                                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

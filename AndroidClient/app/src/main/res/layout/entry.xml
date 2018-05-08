@@ -4,50 +4,122 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/maindumy"
+        android:weightSum="9"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/proImage"
-        android:layout_width="55dp"
+        android:layout_width="0dp"
+        android:layout_weight="2"
         android:layout_height="55dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:src="@drawable/background"
         app:civ_border_color="@color/white"
         app:civ_border_width="3dp" >
+
     </de.hdodenhof.circleimageview.CircleImageView>
+
     <LinearLayout
-        android:layout_width="235dp"
+        android:layout_width="0dp"
         android:orientation="vertical"
         android:id="@+id/dummy"
-        android:layout_marginLeft="6dp"
+        android:layout_weight="6"
+        android:layout_marginTop="3dp"
         android:layout_toRightOf="@id/proImage"
         android:layout_height="wrap_content">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/poster"
-            android:text="Post Name"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:text="Poster Name"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:textColor="@android:color/holo_red_dark"
             />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/post_text"
-            android:layout_below="@id/poster"
-            android:text="Post Name"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
             />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/postage"
+                android:text="Age"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                />
+        </LinearLayout>
+
     </LinearLayout>
+
+
+
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
 
     <ImageButton
         android:layout_width="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_height="30dp"
+        android:scaleType="fitXY"
+        android:id="@+id/dum"
+        app:srcCompat="@drawable/ic_favore_50dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/postfavors"
+        android:text="favors"
+        android:textAlignment="center"
         android:layout_toRightOf="@id/dummy"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:background="@android:color/transparent"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_favore_50dp"/>
+        android:layout_below="@id/dum"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        />
+
+</LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_below="@id/maindumy"
+        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/post_text"
+            android:textSize="16dp"
+            android:fontFamily="casual"
+            android:layout_centerVertical="true"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            android:text="This day is as beautiful as the monkey on that branch in front of me!"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/post_img"
+            android:layout_centerVertical="true"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/ic_launcher"
+            />
 
 
+    </RelativeLayout>
 </RelativeLayout>

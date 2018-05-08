@@ -15,6 +15,16 @@ public class User {
     String gender;
     String phone;
     String about;
+    String profile;
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
+
     int age;
 
     ArrayList<Integer> posts,friends;
@@ -35,7 +45,7 @@ public class User {
         this.about = about;
     }
 
-    public User(int uid,String fName, String lName,String uName,String dName, String gender, String phone, String about,int age) {
+    public User(int uid,String fName, String lName,String uName,String dName,String profile, String gender, String phone, String about,int age) {
         this.uid = uid;
         this.fName = fName;
         this.lName = lName;
@@ -45,6 +55,7 @@ public class User {
         this.gender = gender;
         this.about = about;
         this.age = age;
+        this.profile = profile;
         posts = new ArrayList<>();
         friends = new ArrayList<>();
     }
