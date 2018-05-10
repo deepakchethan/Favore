@@ -25,12 +25,11 @@ router.post('/getuserposts/:usr_id',function(req,res,next){
     Post.find({posterId:uid},function(err,posts){
 	if (err){
 	    res.json({success:false,msg:"unable to fetch posts"});
-	    return;
 	}else{
 	    res.json({success:true,post:posts});
 	}
-    }
-}
+});
+});
 
 router.post('/postimg/',function(req,res,next){
   var path = "/images/"+req.files.file.name;
@@ -48,7 +47,7 @@ router.post('/postimg/',function(req,res,next){
     isImage:true,
     imagePath: path
   });
-    
+
   newPost.save(function(err,suc){
     if (err){
 	res.json({success:false,msg:"Unable to save the post"});
@@ -164,7 +163,7 @@ router.post('/posttext/',function(req,res,next){
 
 router.get('/fetchPosts/',function(req,res,next) {
   /*
-  usage: localhost:3000/user/fetchPosts?lon=xx&lat=xx
+  usage: localhost:3000/user/fetchPosts?lon=xx&lat=xx&uid=xx
   */
   Post.aggregate(
         [
@@ -180,25 +179,54 @@ router.get('/fetchPosts/',function(req,res,next) {
         function(err, results) {
             // do what you want with the results here
             if (err){
-              res.json({"msg":"ding dong bell","err":err});
+		            res.json({success:false,msg:"Could not get the results"});
             }
-            var posts = [];
-            for (var i = 0; i < results.length; ++i){
-              var temp = results[i];
-              var post = new Post({
-                postText:temp.postText,
-                location:temp.location,
-                favors:temp.favors,
-                id:temp.id,
-                age:temp.age,
-                date:temp.date
+	    //Now get the the posts of the users
+	      User.findOne({id:req.query.uid},function(err,usr){
+		    if (err){
+		               res.json({success:false,msg:"could not get the user info"});
+		    }
+		    //Now fetch the posts of the given user
+        frnds=usr.friends;
+		    Post.find({posterId:{$in:frnds}},function(err,friend_post){
+		        if (err){
+			           res.json({success:false,msg:"Unable to fetch the friends"});
+		             }
+		    if (frnds.length == 0){
+			       res.json({success:false,msg:"There are no friends"});
+             return;
+		    }
+        var posts = [];
+        for (var i = 0; i < frnds.length; ++i){
+             var temp = frnds[i];
+             var post = new Post({
+                  postText:temp.postText,
+                  location:temp.location,
+                  favors:temp.favors,
+                  id:temp.id,
+                  age:temp.age,
+                  date:temp.date
               });
               post.computeAge();
               posts.push(post);
-            }
-            res.json({success:"true",posts:posts})
         }
-    )
+		    for (var i = 0; i < results.length; ++i){
+			       var temp = results[i];
+			       var post = new Post({
+			            postText:temp.postText,
+			            location:temp.location,
+			            favors:temp.favors,
+			            id:temp.id,
+			            age:temp.age,
+			            date:temp.date
+        			});
+			        post.computeAge();
+			        posts.push(post);
+		    }
+		    res.json({success:"true",posts:posts})
+		});
+  });
+})
 });
 
 router.get('/getUserDetails/:user_id',function(req,res,next) {

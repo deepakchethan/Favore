@@ -16,7 +16,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.logging.HttpLoggingInterceptor;
 
 
 public class Backend {
@@ -28,7 +27,6 @@ public class Backend {
     private static Favore favore;
     public Backend(){}
     private String TAG = "Backend";
-    HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
 
 
     public static Backend get(Context context){
@@ -50,9 +48,7 @@ public class Backend {
         return call;
     }
     public String test(){
-        logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
-        client = new OkHttpClient.Builder().addInterceptor(logging).build();
-
+        client = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         RequestBody body = RequestBody.create(mediaType, "username=email+&password=pass");
         Request request = new Request.Builder()
@@ -77,8 +73,8 @@ public class Backend {
     }
 
     public Call Signin(String email,String pass) throws IOException{
-        logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
-         client = new OkHttpClient.Builder().addInterceptor(logging).build();
+
+         client = new OkHttpClient();
 
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         RequestBody body = RequestBody.create(mediaType, "username="+email+"&password="+pass);
@@ -154,26 +150,19 @@ public class Backend {
         });
         return mResponse.body().string();
     }
-    public String FetchPosts(long lon,long lat) throws IOException{
+
+    public Call FetchPosts(double lon,double lat) throws IOException{
          client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url(mUrl+"/user/fetchPosts?lon="+lon+"&lat="+lat)
+                .url(mUrl+"/user/fetchPosts?lon="+lon+"&lat="+lat+"&uid"+favore.getOwner().getUid())
                 .get()
                 .addHeader("Cache-Control", "no-cache")
                 .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                favore.toasty("Unable to get the posts for now");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                mResponse = response;
-            }
-        });
-        return mResponse.body().string();
+        Call call = client.newCall(request);
+        return call;
     }
+
+
     public Call GetUserDetails(long uid) throws IOException {
          client = new OkHttpClient();
         Request request = new Request.Builder()
