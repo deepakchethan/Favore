@@ -7,8 +7,9 @@ package com.favoreme.favore.Models;
 
 public class Post {
     String poster;
-    String post;
-    Loci location;
+    String post_text;
+    boolean isImage;
+    String post_image_url;
     String poster_profile_url;
     String post_id;
     long time,favors;
@@ -40,20 +41,19 @@ public class Post {
     }
 
 
-    public Post(String post_id, String poster, String post, Loci location, long time, long favors, String poster_profile_url) {
+    public Post(String post_id, String poster, String post, long time, long favors, String poster_profile_url,Boolean isImage, String post_image_url) {
         this.poster = poster;
-        this.post = post;
+        this.post_text = post;
         this.post_id = post_id;
-        this.location = location;
         this.time = time;
         this.favors = favors;
         this.poster_profile_url = poster_profile_url;
+        this.isImage = isImage;
+        if (this.isImage){
+            this.post_image_url = post_image_url;
+        }
     }
 
-    public Post(String poster, String post) {
-        this.poster = poster;
-        this.post = post;
-    }
 
     public String getPoster() {
         return poster;
@@ -63,21 +63,14 @@ public class Post {
         this.poster = poster;
     }
 
-    public String getPost() {
-        return post;
+    public String getPost_text() {
+        return post_text;
     }
 
-    public void setPost(String post) {
-        this.post = post;
+    public void setPost_text(String post) {
+        this.post_text = post_text;
     }
 
-    public Loci getLocation() {
-        return location;
-    }
-
-    public void setLocation(Loci location) {
-        this.location = location;
-    }
 
     public long getTime() {
         return time;

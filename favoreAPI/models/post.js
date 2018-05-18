@@ -40,6 +40,12 @@ var PostSchema = new Schema({
   date:{
     type:Date,
     default:Date.now
+  },
+  poster:{
+    type:String
+  },
+  posterProfile:{
+    type:String
   }
 });
 PostSchema.methods.favored = function(){

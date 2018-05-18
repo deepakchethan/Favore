@@ -43,7 +43,8 @@ var UserSchema = new Schema({
     type:[Number]
   },
   profileImg:{
-    type:String
+    type:String,
+    default:"/images/low_den_high"
   }
 });
 

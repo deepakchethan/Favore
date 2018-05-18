@@ -86,12 +86,14 @@ public class Extra_details_activity extends AppCompatActivity {
                 String abouts = about.getText().toString();
                 String ages = age.getText().toString();
                 int id = favore.getOwner().getUid();
+                Log.d(TAG, "onClick: WOrks until this point");
                 if (TextUtils.isEmpty(firstName) ||TextUtils.isEmpty(lastName) || TextUtils.isEmpty(abouts)|| TextUtils.isEmpty(displayName) ||
                         TextUtils.isEmpty(phoneNum) || TextUtils.isEmpty(ages) || TextUtils.isEmpty(gender)){
                         Toast.makeText(getApplicationContext(),"All fields are mandatory mate",Toast.LENGTH_SHORT).show();
                         return;
                 }
                 // Upload the extra details
+                path = null;
                 try {
                     backend.EditUser(id,firstName,lastName,displayName,favore.getOwner().getuName(),phoneNum,abouts,ages,path).enqueue(new Callback() {
                         @Override
@@ -136,6 +138,7 @@ public class Extra_details_activity extends AppCompatActivity {
             if (selectedImageUri != null){
                 path = getPathFromURI(selectedImageUri);
                 profile_pic.setImageURI(selectedImageUri);
+                favore.toasty(path);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -170,6 +173,7 @@ public class Extra_details_activity extends AppCompatActivity {
             res = cursor.getString(column_index);
         }
         cursor.close();
+        Log.d(TAG, "getPathFromURI: "+res);
         return res;
     }
 

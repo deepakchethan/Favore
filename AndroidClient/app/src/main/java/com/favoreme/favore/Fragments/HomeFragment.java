@@ -4,6 +4,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,13 +33,11 @@ public class HomeFragment extends Fragment {
 
     ArrayList<Post> posts;
     Backend backend;
-    LocationManager lm;
     Favore favore;
     ListView lst;
     public HomeFragment() {
 
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,9 +46,9 @@ public class HomeFragment extends Fragment {
         View v=inflater.inflate(R.layout.fragment_home, container, false);
         backend = Backend.get(getContext());
         favore = Favore.get(getContext());
-        posts=new ArrayList<Post>();
-        Tracker t = new Tracker(getContext());
 
+        Tracker t = new Tracker(getContext());
+        final ArrayList<Post> posts = new ArrayList<>();
         Location l = t.getLocation();
         try {
             backend.FetchPosts(l.getLongitude(),l.getLatitude()).enqueue(new Callback() {
@@ -63,12 +62,29 @@ public class HomeFragment extends Fragment {
                 public void onResponse(Call call, Response response) throws IOException {
                     try {
                         JSONObject jsonObject = new JSONObject(response.body().string());
-                        if (jsonObject.getBoolean("success")){
-                            favore.toasty("Failed to fetch the posts!");
+                        JSONArray array = jsonObject.getJSONArray("posts");
+                        for (int i = 0;i < array.length(); i++){
+                            JSONObject temp = array.getJSONObject(i);
+                            // Convert JSON to java objects
+                            String img = null;
+                            if (temp.getBoolean("isImage")) {
+                                img = temp.getString("postImage");
+                            }
+                            Post post = new Post(
+                              temp.getString("id"),
+                              temp.getString("poster"),
+                                    temp.getString("postText"),
+                                    temp.getLong("age"),
+                                    temp.getInt("favors"),
+                                    temp.getString("posterProfile"),
+                                    temp.getBoolean("isImage"),
+                                    img
+                            );
+                            posts.add(post);
+                            Log.d("temp", "onResponse: "+post.toString());
+
                         }
-                        else{
-                            
-                        }
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -76,15 +92,11 @@ public class HomeFragment extends Fragment {
             });
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (NullPointerException e){
+            e.printStackTrace();
         }
-        posts.add(new Post("Deepak", "I am so good at this even then I am unable to get any kind of kinky values"));
-        posts.add(new Post("Chethan", "I am awesome"));
-        posts.add(new Post("Deepak Chethan", "I am awesome"));
-        posts.add(new Post("DC", "I am awesome"));
-        posts.add(new Post("dodococo", "I am awesome too"));
-        posts.add(new Post("dodococo","I am awesome too"));
-        lst = (ListView) v.findViewById(R.id.post_list);
 
+        lst = (ListView) v.findViewById(R.id.post_list);
         CustomAdapter customAdapter = new CustomAdapter(getActivity(),posts,R.layout.entry);
         lst.setAdapter(customAdapter);
         return v;

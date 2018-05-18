@@ -13,6 +13,7 @@ var app = express();
 // Routes for the app
 var index = require('./routes/index');
 var user = require('./routes/user');
+var fetch = require('./routes/fetch');
 var setting = require('./routes/setting');
 
 
@@ -40,6 +41,7 @@ app.use(passport.initialize());
 app.use('/', index);
 app.use('/user', passport.authenticate('jwt', {session: false}), user);
 app.use('/setting', passport.authenticate('jwt', {session: false}), setting);
+app.use('/fetch', passport.authenticate('jwt', {session: false}), fetch);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

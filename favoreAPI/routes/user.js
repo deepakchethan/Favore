@@ -34,6 +34,7 @@ router.post('/getuserposts/:usr_id',function(req,res,next){
 router.post('/postimg/',function(req,res,next){
   var path = "/images/"+req.files.file.name;
   var stat = uploadImage(req,res,path);
+  console.log(path);
   if(stat==false){
     res.json({success:false,msg:"Timeout mate!",error:err});
     return;
@@ -50,23 +51,25 @@ router.post('/postimg/',function(req,res,next){
 
   newPost.save(function(err,suc){
     if (err){
-	res.json({success:false,msg:"Unable to save the post"});
-	console.log(err);
+	     res.json({success:false,msg:"Unable to save the post"});
+	     return;
     }
       else{
 	  console.log(newPost);
         User.findOne({id:req.body.posterId},function(err,usr){
           if (err){
               res.json({success:false,msg:"Some kind of error"});
-	      console.log(err);
+	            return;
           } if (usr == null){
-            res.json({success:false,msg:"User not found"})
+            res.json({success:false,msg:"User not found"});
+            return;
           } else{
             var usr_posts = usr.posts;
             usr_posts.push(suc.id);
             User.update({id:usr.id},{$set:{posts:usr_posts}},function(err,out){
               if (err){
                   res.json({success:false,msg:"Some kind of error"});
+                  return;
               }
               else res.json({success:true, msg:"Successfully inserted a post mate!", post:suc});
             })
@@ -85,15 +88,16 @@ function uploadImage(req,res,path){
     return false;
   }
   else {
-  img.mv(path,function(err){
+  img.mv("public"+path,function(err){
     if (err){
       res.json({success:false,msg:"Failed to upload the file",error:err});
       return false;
     }
-    else  return true;
+    else return true;
   });
 }
 }
+
 router.post("/editUser/",function(req,res,next){
   var user_details = req.body;
   var path = "public/images/"+user_details.id+".jpg";
@@ -159,74 +163,6 @@ router.post('/posttext/',function(req,res,next){
         });
     }
   });
-});
-
-router.get('/fetchPosts/',function(req,res,next) {
-  /*
-  usage: localhost:3000/user/fetchPosts?lon=xx&lat=xx&uid=xx
-  */
-  Post.aggregate(
-        [
-            {
-                '$geoNear': {
-                    'near': [parseFloat(req.query.lon),parseFloat(req.query.lat)],
-                    'spherical': true,
-                    'distanceField': 'dist',
-                    'maxDistance': 1000
-                }
-            }
-        ],
-        function(err, results) {
-            // do what you want with the results here
-            if (err){
-		            res.json({success:false,msg:"Could not get the results"});
-            }
-	    //Now get the the posts of the users
-	      User.findOne({id:req.query.uid},function(err,usr){
-		    if (err){
-		               res.json({success:false,msg:"could not get the user info"});
-		    }
-		    //Now fetch the posts of the given user
-        frnds=usr.friends;
-		    Post.find({posterId:{$in:frnds}},function(err,friend_post){
-		        if (err){
-			           res.json({success:false,msg:"Unable to fetch the friends"});
-		             }
-		    if (frnds.length == 0){
-			       res.json({success:false,msg:"There are no friends"});
-             return;
-		    }
-        var posts = [];
-        for (var i = 0; i < frnds.length; ++i){
-             var temp = frnds[i];
-             var post = new Post({
-                  postText:temp.postText,
-                  location:temp.location,
-                  favors:temp.favors,
-                  id:temp.id,
-                  age:temp.age,
-                  date:temp.date
-              });
-              post.computeAge();
-              posts.push(post);
-        }
-		    for (var i = 0; i < results.length; ++i){
-			       var temp = results[i];
-			       var post = new Post({
-			            postText:temp.postText,
-			            location:temp.location,
-			            favors:temp.favors,
-			            id:temp.id,
-			            age:temp.age,
-			            date:temp.date
-        			});
-			        post.computeAge();
-			        posts.push(post);
-		    }
-		    res.json({success:"true",posts:posts})
-		});
-  });
-})
 });
 
 router.get('/getUserDetails/:user_id',function(req,res,next) {
@@ -334,7 +270,7 @@ router.get("/favore/:post_id",function(req,res,next){
 
 router.get("/addFriend/",function(req,res,next){
   /*
-    usage: localhost:3000/user/fetchPosts?usr=xx&frnd=xx
+    usage: localhost:3000/user/addFriend?usr=xx&frnd=xx
   */
   var user_id = req.query.usr;
   var frnd_id = req.query.frnd;

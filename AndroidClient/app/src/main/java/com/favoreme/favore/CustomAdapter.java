@@ -43,7 +43,7 @@ public class CustomAdapter  extends ArrayAdapter<Post>{
         }
         Post post = posts.get(position);
         viewHolder.poster.setText(post.getPoster().toString());
-        viewHolder.post_text.setText(post.getPost().toString());
+        viewHolder.post_text.setText(post.getPost_text().toString());
 
 
         return v;
