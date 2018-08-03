@@ -14,16 +14,7 @@
         android:id="@+id/toolBar">
     </android.support.v7.widget.Toolbar>
 
-    <android.support.design.widget.BottomNavigationView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/bottom"
-        app:itemBackground="@color/colorPrimary"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white"
-        android:layout_alignParentBottom="true"
-        app:menu="@menu/bot_nav_menu">
-   </android.support.design.widget.BottomNavigationView>
+
 
     <FrameLayout
         android:layout_width="match_parent"

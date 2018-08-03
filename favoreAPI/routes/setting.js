@@ -98,10 +98,4 @@ route.post('/updateBio',(req,res,next)=>{
   });
 });
 
-
-
-
-
-
-
 module.exports = route;

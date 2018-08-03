@@ -9,8 +9,8 @@ var User = require("../models/user");
 var Post = require('../models/post');
 
 
-router.get('/fetchPostsFol/',function(req,res,next){
-  var pos = []
+router.get('/fetchFollowersPost/',function(req,res,next){
+  var posts = []
   User.findOne({id:req.query.uid},function(err,usr){
      if (err){
             res.json({success:false,msg:"could not get the user info"});
@@ -18,7 +18,8 @@ router.get('/fetchPostsFol/',function(req,res,next){
      if (usr == null){
         res.json({success:false,msg:"No such user"});
       }
-     frnds=usr.friends;
+     var frnds=usr.friends;
+     console.log(frnds);
      Post.aggregate([
         {
           '$match':{posterId:{'$in':frnds}}
@@ -33,11 +34,15 @@ router.get('/fetchPostsFol/',function(req,res,next){
         }
      ]
      ,function(err,results){
-       console.log(results[0].user_details[0].username);
        if (err){
          res.json({"success":false,"msg":"Some kind of error!"});
+         return;
        }
-       for(i = 0; i < results.length; ++i){
+       if(results.length == 0){
+         res.json({success:true,msg:"You have no friends or friends who post"});
+         return;
+       }
+       for(var i = 0; i < results.length; ++i){
           var temp = results[i];
           var post =new Post({
             postText:temp.postText,
@@ -51,18 +56,16 @@ router.get('/fetchPostsFol/',function(req,res,next){
             isImage:temp.isImage,
             date:temp.date
           });
-          post.computeAge();
           pos.push(post);
-
         }
         res.json({"success":true,posts:pos})
      })
 });
 });
 
-router.get('/fetchPostsLoc/',function(req,res,next) {
+router.get('/fetchLocationPosts/',function(req,res,next) {
   /*
-  usage: localhost:3000/user/fetchPosts?lon=xx&lat=xx
+  usage: localhost:3000/user/fetchPostsfol?lon=xx&lat=xx
   */
   var pos=[];
   Post.aggregate(
@@ -90,7 +93,7 @@ router.get('/fetchPostsLoc/',function(req,res,next) {
 		            res.json({success:false,msg:"Could not get the results"});
                 return;
             }
-	          //Now get the the posts of the users
+
             // Now putting the posts got using the direct querying
             for(i = 0; i < results.length; ++i){
                var temp = results[i];
@@ -106,7 +109,6 @@ router.get('/fetchPostsLoc/',function(req,res,next) {
                  isImage:temp.isImage,
                  date:temp.date
                });
-               post.computeAge();
                pos.push(post);
 		       }
            res.json({success:"true",posts:pos});

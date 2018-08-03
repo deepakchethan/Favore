@@ -2,50 +2,21 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
 const autoincrement = require('simple-mongoose-autoincrement')
 var Schema = mongoose.Schema;
-
 var UserSchema = new Schema({
-  id:{
-    type:Schema.Types.ObjectId
-  },
-  username:{
-    type:String,
-    require: true
-  },
-  password:{
-    type:String,
-    required: true
-  },
-  age:{
-    type:Number
-  },
-  fname:{
-    type:String
-  },
-  lname:{
-    type:String
-  },
-  dname:{
-    type:String
-  },
-  phone:{
-    type:Number
-  },
-  bio:{
-    type:String
-  },
-  gender:{
-	   type:String
-  },
-  friends:{
-    type:[Number]
-  },
-  posts:{
-    type:[Number]
-  },
-  profileImg:{
-    type:String,
-    default:"/images/low_den_high"
-  }
+  id: { type:Schema.Types.ObjectId },
+  email:{ type:String, require: true},
+  password:{ type:String, required: true},
+  age:{type:Number},
+  firstName:{type:String},
+  lastName:{type:String},
+  displayName:{type:String},
+  bio:{type:String},
+  gender:{type:String},
+  friends:{type:[Number]},
+  // Update the posts when the post is deleted also
+  posts:{type:[Number]},
+  profileImg:{ type:String,default:"/images/low_den_high"},
+  karma:{type:Number,default:0}
 });
 
 UserSchema.pre('save',function(next){

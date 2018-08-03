@@ -1,34 +1,29 @@
-
 Favore: 
-* A Social Networking site where people can dump images, voices and text based posts at specific locations and let random strangers who pass by that path read them.
-* It is an android app with the nodejs as the background
-* People can "favore" or repost the post from where there are at.
-* Can add people to the friend list, remove them
-* Posts last longer based on the "favoring". If nobody fovores it, the post will be deleted.
-* Friend is basically a follower
-
-
-NODE BACK END
-* Create Models [2/2]
+* DONE Create Models [3/3]
   - [X] User
   - [X] Post
-* DONE Login
-* DONE Signup
-* DONE Add post
-* DONE Remove Post
-* DONE Fetch Near Posts
-* DONE Fetch User Details
-* DONE Edit User
-* DONE Favore a post (Basically reposting the post from there location)
-* DONE Add User as friend
-* DONE Delete a user
-* DONE Get user Friend list
-* DONE Remove the user as friend
-* DONE Add Image Support [2/2]
-  - [X] Add isImage,imageurl to model
-  - [X] Some way to upload images from android app to server
-* DONE Do individual settings stuff for each of them.
-Android Client
+  - [X] Comment
+* Node Backend
+  DEADLINE: <2018-08-02 Thu>
+** DONE Login 
+** DONE Signup
+** Add text post
+** Add image post
+** Remove Post
+** Remove Comment
+** Fetch Near Posts
+** Fetch Following Posts
+** Favore a post 
+** Fetch User Details
+** Edit User
+** Add User as follower
+** Remove User as follower
+** Get user Friend list
+** Add Image Support [2/2]
+** Do individual settings stuff for each of them.
+ Android Client
+
+
 
 * UI [3/6]
   - [X] Login Screen
@@ -38,6 +33,13 @@ Android Client
   - [X] User Details
   - [ ] Settings
 
+
+
+* Criteria
+  + Location
+  + User Karma, initially 50, if it falls below 0 then the post will be deleted and user will be blocked if the karma goes below -500
+  + 
+
 * Functionality
 
 ** User Setup [4/4]
@@ -46,12 +48,15 @@ Android Client
    - [X] Store the JWT token into the shredprefs (private)
    - [X] Store the extra info about the user
 
-** User Functionality [2/3]
+** User Functionality [4/5]
    - [X] Add a post
    - [X] Remove a post
-   - [ ] Favore a thing
-   - [ ] Fetch posts and display
+   - [X] Favore a thing
+   - [X] Fetch posts 
+   - [ ] Paginate the fetch requests
 
-*** Few Idea Changes [1/1]
+*** Few Idea Changes [2/2]
     - [X] Add a primary key like id instead of ObjectId (ObjectId changes, if document changes)
-    - [ ] Seperate uploading images and posting text as seperate entity.
+    - [X] Seperate uploading images and posting text as seperate entity.
+
+

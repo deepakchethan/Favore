@@ -29,13 +29,13 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class HomeFragment extends Fragment {
+public class LocationPost extends Fragment {
 
     ArrayList<Post> posts;
     Backend backend;
     Favore favore;
     ListView lst;
-    public HomeFragment() {
+    public LocationPost() {
 
     }
 

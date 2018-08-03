@@ -15,8 +15,8 @@ var index = require('./routes/index');
 var user = require('./routes/user');
 var fetch = require('./routes/fetch');
 var setting = require('./routes/setting');
-
-
+var post = require('./routes/post')
+var comment = require('./routes/comment')
 var fileUpload = require('express-fileupload');
 mongoose.connect(config.database);
 
@@ -42,7 +42,8 @@ app.use('/', index);
 app.use('/user', passport.authenticate('jwt', {session: false}), user);
 app.use('/setting', passport.authenticate('jwt', {session: false}), setting);
 app.use('/fetch', passport.authenticate('jwt', {session: false}), fetch);
-
+app.use('/post',passport.authenticate('jwt',{session:false}), post);
+app.use('/post',passport.authenticate('jwt',{session:false}),comment);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
