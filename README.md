@@ -1,2 +1,2 @@
 # Favore
-A location based social network built using android and nodejs
+Location based social network built with MEN and Android SDK.
