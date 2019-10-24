@@ -51,6 +51,7 @@ Desktop.ini
 
 
 # npm
+.npm
 node_modules
 package-lock.json
 *.log
